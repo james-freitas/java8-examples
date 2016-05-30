@@ -1,4 +1,4 @@
-package com.java8.data;
+package com.java8.curso.alura.data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

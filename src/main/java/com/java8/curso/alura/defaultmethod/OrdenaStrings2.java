@@ -1,7 +1,6 @@
-package com.java8.defaultmethod;
+package com.java8.curso.alura.defaultmethod;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;

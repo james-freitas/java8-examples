@@ -1,4 +1,4 @@
-package com.java8.methodreferences;
+package com.java8.curso.alura.methodreferences;
 
 import java.util.ArrayList;
 import java.util.Comparator;

@@ -1,4 +1,4 @@
-package com.java8.lambda;
+package com.java8.curso.alura.lambda;
 
 import java.util.ArrayList;
 import java.util.Comparator;

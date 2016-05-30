@@ -1,4 +1,4 @@
-package com.java8.defaultmethod;
+package com.java8.curso.alura.defaultmethod;
 
 import java.util.ArrayList;
 import java.util.Comparator;

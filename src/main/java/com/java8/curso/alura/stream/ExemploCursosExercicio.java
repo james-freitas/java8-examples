@@ -1,4 +1,4 @@
-package com.java8.maisstream;
+package com.java8.curso.alura.stream;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 class CursoExercicio {
 	private String nome;
