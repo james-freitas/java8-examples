@@ -1,4 +1,4 @@
-package com.java8.book.casadocodigo.cap2;
+package com.java8.book.casadocodigo.capitulo2;
 
 class Usuario {
 
