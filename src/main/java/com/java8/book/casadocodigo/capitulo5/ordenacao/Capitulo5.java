@@ -3,6 +3,8 @@ package com.java8.book.casadocodigo.capitulo5.ordenacao;
 import com.java8.book.casadocodigo.model.Usuario;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.ToIntFunction;
 
 public class Capitulo5 {
 
@@ -35,6 +37,35 @@ public class Capitulo5 {
         // Maiúsculas ou minúsculas
         Collections.sort(usuarios, (u1, u2) ->
             String.CASE_INSENSITIVE_ORDER.compare(u1.getNome(), u2.getNome()));
+
+
+        // Ordenando de forma mais suscinta
+        usuarios.sort((u1,u2) -> u1.getNome().compareTo(u2.getNome()));
+
+        // Outra forma de comparar
+         //usuarios.sort(Comparator.comparing(u -> u.getNome()));
+
+
+
+        List<String> palavras = Arrays.asList("Casa do Código", "Alura", "Caelum");
+        //Collections.sort(palavras);
+
+        palavras.sort(Comparator.naturalOrder()); // Comparator que delega para o próprio objeto
+
+
+        // Ordenação por pontos
+        //usuarios.sort(Comparator.comparing(u -> u.getPontos()));
+        Function<Usuario, Integer> extraiPontos = u -> u.getPontos();
+        Comparator<Usuario> comparator3 = Comparator.comparing(extraiPontos);
+        usuarios.sort(comparator3);
+
+        // Evitando o autoboxing
+        ToIntFunction<Usuario> extraiPontosDeNovo = u -> u.getPontos();
+        Comparator<Usuario> comparator4 = Comparator.comparingInt(extraiPontosDeNovo);
+        usuarios.sort(comparator4);
+        usuarios.sort(Comparator.comparingInt(u -> u.getPontos()));
+
+
 
     }
 
