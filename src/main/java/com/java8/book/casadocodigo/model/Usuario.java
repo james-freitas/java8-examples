@@ -11,6 +11,10 @@ public class Usuario {
 		this.pontos = pontos;
 		this.moderador = false;
 	}
+
+    public Usuario(String nome){
+        this.nome = nome;
+    }
 	
 	public String getNome(){
 		return nome;
@@ -27,7 +31,11 @@ public class Usuario {
 	public boolean isModerador() {
 		return moderador;
 	}
-	
+
+    @Override
+    public String toString() {
+        return "Usuario " + nome;
+    }
 }
 
 

@@ -7,8 +7,7 @@ import static java.util.Comparator.comparing;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.*;
 
 public class Capitulo6 {
 
@@ -73,6 +72,28 @@ public class Capitulo6 {
         Consumer<Usuario> consumer1 = Usuario::tornaModerador;
         Consumer<Usuario> consumer2 = u -> u.tornaModerador();
 
+        // Referenciando métodos que recebem argumentos
+        usuarios.forEach(System.out::println);
+
+
+        // 5 Referenciando construtores - not ok
+        //Supplier<Usuario> criadorDeUsuarios = Usuario::new;
+        //Usuario novo = criadorDeUsuarios.get();
+
+        // 6 construir usuario com um parametro
+        Function<String, Usuario> criadorDeUsuarios = Usuario::new;
+        Usuario rodrigot = criadorDeUsuarios.apply("Rodrigo Turini");
+        Usuario paulo = criadorDeUsuarios.apply("Paulo Silveira");
+
+        // 7 construir usuario com dois parametros
+        BiFunction<String, Integer, Usuario> criadorDeUsuarios2 = Usuario::new;
+        Usuario rodrigo2 = criadorDeUsuarios2.apply("Rodrigo",50);
+        Usuario paulo2 = criadorDeUsuarios2.apply("Paulo",40);
+
+        // Cuidado com o boxing
+        BiFunction<Integer, Integer, Integer> max = Math::max;
+        ToIntBiFunction<Integer, Integer> max2 = Math::max;
+        IntBinaryOperator max3 = Math::max;
 
     }
 
