@@ -2,9 +2,13 @@ package com.java8.book.casadocodigo.capitulo7.streamsecollectors;
 
 import com.java8.book.casadocodigo.model.Usuario;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Capitulo7 {
@@ -57,6 +61,36 @@ public class Capitulo7 {
                 .filter(Usuario::isModerador);
 
 
+        // obter de volta uma lista
+        //List<Usuario> maisQue100 = new ArrayList<>();
+
+        /*usuarios.stream()
+                .filter(u -> u.getPontos() > 100)
+                .forEach( u -> maisQue100.add(u));*/
+
+        // simples
+        /*usuarios.stream()
+                .filter( u -> u.getPontos() > 100)
+                .forEach( maisQue100::add );*/
+
+        // obter de volta uma lista usando Collectors hard
+        /*Supplier<ArrayList<Usuario>> supplier = ArrayList::new;
+        BiConsumer<ArrayList<Usuario>, Usuario> accumulator = ArrayList::add;
+        BiConsumer<ArrayList<Usuario>, ArrayList<Usuario>> combiner = ArrayList::addAll;
+
+        List<Usuario> maisQue100 = usuarios.stream()
+                .filter(u -> u.getPontos() > 100)
+                .collect(supplier, accumulator, combiner);
+
+
+        usuarios.stream()
+                .filter(u -> u.getPontos() > 100)
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);*/
+
+        // obter de volta uma lista usando Collectors easy
+        List<Usuario> maisQue100 = usuarios.stream()
+                .filter(u -> u.getPontos() > 100)
+                .collect(Collectors.toList());
 
     }
 
