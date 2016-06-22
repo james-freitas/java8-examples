@@ -2,10 +2,7 @@ package com.java8.book.casadocodigo.capitulo7.streamsecollectors;
 
 import com.java8.book.casadocodigo.model.Usuario;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -91,6 +88,15 @@ public class Capitulo7 {
         List<Usuario> maisQue100 = usuarios.stream()
                 .filter(u -> u.getPontos() > 100)
                 .collect(Collectors.toList());
+
+        // Coletando informaçoes para um set
+        Set<Usuario> maisQue100Set = usuarios
+                .stream()
+                .filter( u -> u.getPontos() > 100)
+                .collect(Collectors.toSet());
+
+        Set<Usuario> set = stream.collect(Collectors.toCollection(HashSet::new));
+
 
     }
 
