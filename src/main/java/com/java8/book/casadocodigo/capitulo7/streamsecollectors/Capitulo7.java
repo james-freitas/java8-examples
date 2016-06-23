@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Capitulo7 {
@@ -96,6 +97,29 @@ public class Capitulo7 {
                 .collect(Collectors.toSet());
 
         Set<Usuario> set = stream.collect(Collectors.toCollection(HashSet::new));
+
+        // Liste apenas os pontos de todos os usuários com map
+        List<Integer> pontos = usuarios.stream()
+                .map( u -> u.getPontos())
+                .collect(Collectors.toList());
+
+        List<Integer> pontos2 = usuarios.stream()
+                .map(Usuario::getPontos)
+                .collect(Collectors.toList());
+
+        // IntStream e a família de Streams
+        Stream<Integer> stream1 = usuarios.stream()
+                .map(Usuario::getPontos);
+
+        IntStream stream2 = usuarios.stream()
+                .mapToInt(Usuario::getPontos);
+
+        double pontuacaoMedia = usuarios.stream()
+                .mapToInt(Usuario::getPontos)
+                .average()
+                .getAsDouble();
+
+
 
 
     }
