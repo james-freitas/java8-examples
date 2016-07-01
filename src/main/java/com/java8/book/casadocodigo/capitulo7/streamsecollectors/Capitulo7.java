@@ -120,6 +120,44 @@ public class Capitulo7 {
                 .getAsDouble();
 
 
+        // Optional
+
+        OptionalDouble media = usuarios.stream()
+                .mapToInt(Usuario::getPontos)
+                .average();
+
+        double pontuacaoMedia2 = media.orElse(0.0);
+
+        // improve
+        double pontuacaoMedia3 = usuarios.stream()
+                .mapToInt(Usuario::getPontos)
+                .average()
+                .orElse(0.0);
+
+        // optional throwing exceptions
+        double pontuacaoMedia4 = usuarios.stream()
+                .mapToInt(Usuario::getPontos)
+                .average()
+                .orElseThrow(IllegalStateException::new);
+
+        // optional passando um Consumer como argumento
+        /* usuarios.stream()
+                .mapToInt(Usuario::getPontos)
+                .average()
+                .ifPresent(valor -> janela.atualiza(valor)); */
+
+        // Optional com max
+        Optional<Usuario> max = usuarios
+                .stream()
+                .max(Comparator.comparingInt(Usuario::getPontos));
+
+        // Optional lazy
+        Optional<String> maxNome = usuarios
+                .stream()
+                .max(Comparator.comparingInt(Usuario::getPontos))
+                .map(Usuario::getNome);
+
+
 
 
     }
