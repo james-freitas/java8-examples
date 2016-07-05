@@ -5,6 +5,7 @@ import com.java8.book.casadocodigo.model.Usuario;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Capitulo8 {
@@ -19,6 +20,25 @@ public class Capitulo8 {
                 .filter(u -> u.getPontos() > 100)
                 .sorted(Comparator.comparing(Usuario::getNome))
                 .collect(Collectors.toList());
+
+        // Usando métodos lazy
+        Optional<Usuario> usuarioOptional = usuarios.stream()
+                .filter(u -> u.getPontos() > 100)
+                .findAny();
+
+        // Enxergando a execução do pipeline com peek ao pegar um
+        usuarios.stream()
+                .filter(u -> u.getPontos() > 100)
+                .peek(System.out::println)
+                .findAny();
+
+        System.out.println("---------------");
+
+        // Enxergando a execução do pipeline com peek ao ordenar
+        usuarios.stream()
+                .sorted(Comparator.comparing(Usuario::getNome))
+                .peek(System.out::println)
+                .findAny();
 
     }
 
