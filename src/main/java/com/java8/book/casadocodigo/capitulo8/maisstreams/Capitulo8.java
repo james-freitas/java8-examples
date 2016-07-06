@@ -40,6 +40,31 @@ public class Capitulo8 {
                 .peek(System.out::println)
                 .findAny();
 
+        // Operaçoes de redução
+        double pontuacaoMedia = usuarios.stream()
+                .mapToInt(Usuario::getPontos)
+                .average()
+                .getAsDouble();
+
+        // Max
+        Optional<Usuario> max = usuarios.stream()
+                .max(Comparator.comparing(Usuario::getPontos));
+        Usuario maximaPontuacao = max.get();
+
+        // Sum
+        int total = usuarios.stream()
+                .mapToInt(Usuario::getPontos)
+                .sum();
+
+        // multiplicar os pontos
+        int multiplicacao = usuarios.stream()
+                .mapToInt(Usuario::getPontos)
+                .reduce(1, (a, b) -> a * b);
+
+        // soma sem map
+        int total2 = usuarios.stream()
+                .reduce(0, (atual, u) -> atual + u.getPontos(), Integer::sum);
+
     }
 
     private static List<Usuario> getUsuarios() {
