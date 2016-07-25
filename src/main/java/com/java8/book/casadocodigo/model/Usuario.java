@@ -12,6 +12,12 @@ public class Usuario {
 		this.moderador = false;
 	}
 
+    public Usuario(String nome, int pontos, boolean moderador) {
+        this.nome = nome;
+        this.moderador = moderador;
+        this.pontos = pontos;
+    }
+
     public Usuario(String nome){
         this.nome = nome;
     }
