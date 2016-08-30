@@ -1,8 +1,12 @@
 package goodies;
 
+import java.math.BigDecimal;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Payment {
@@ -35,4 +39,6 @@ public class Payment {
                 date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) +
                 " " + customer + " " + products + "]";
     }
+
+
 }
