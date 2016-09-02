@@ -2,18 +2,17 @@ package goodies;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.CoreMatchers.*;
 
 import java.math.BigDecimal;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class PaymentTest {
 
@@ -108,6 +107,48 @@ public class PaymentTest {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         assertThat(totalFlat, equalTo(BigDecimal.valueOf(1430)));
+
+    }
+
+    @Test
+    public void testProdutosMaisVendidos() throws Exception {
+
+        Map<Product,Long> topProducts = payments.stream()
+                .flatMap(p -> p.getProducts().stream())
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+/*
+        topProducts.entrySet().stream()
+                .forEach(System.out::println);
+*/
+
+        topProducts.entrySet().stream()
+                .max(Comparator.comparing(Map.Entry::getValue))
+                .ifPresent(System.out::println);
+
+        Optional<Map.Entry<Product,Long>> max = topProducts.entrySet().stream()
+                .max(Comparator.comparing(Map.Entry::getValue));
+
+        assertThat( max.get().getValue(), is(equalTo(4L)));
+        assertThat( max.get().getKey().getName(), is(equalTo("Bach Completo")));
+    }
+
+
+    @Test
+    public void testSomaDoValorPorProduto() throws Exception {
+        Map<Product, BigDecimal> totalValuePerProduct = payments.stream()
+                .flatMap(p -> p.getProducts().stream())
+                .collect(Collectors.groupingBy(Function.identity(),
+                        Collectors.reducing(BigDecimal.ZERO, Product::getPrice, BigDecimal::add)));
+
+        totalValuePerProduct.entrySet().stream()
+                .sorted(Comparator.comparing(Map.Entry::getValue))
+                .forEach(System.out::println);
+
+        Product productBandeira = new Product("Bandeira Brasil",
+                Paths.get("/images/brasil.jpg"), new BigDecimal(50));
+
+        assertThat(totalValuePerProduct.get(productBandeira), is(equalTo(new BigDecimal(50))));
 
     }
 }
