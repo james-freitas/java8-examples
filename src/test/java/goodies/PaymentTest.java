@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.math.BigDecimal;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -147,8 +148,86 @@ public class PaymentTest {
 
         Product productBandeira = new Product("Bandeira Brasil",
                 Paths.get("/images/brasil.jpg"), new BigDecimal(50));
+        Product poderosas = new Product("Poderosas Anita",
+                Paths.get("/music/poderosas.mp3"), new BigDecimal(90));
+        Product bach = new Product("Bach Completo",
+                Paths.get("/music/bach.mp3"), new BigDecimal(100));
+        Product beauty = new Product("Beleza Americana",
+                Paths.get("beauty.mov"), new BigDecimal(150));
+        Product vingadores = new Product("Os Vingadores",
+                Paths.get("/movies/vingadores.mov"), new BigDecimal(200));
+        Product amelie = new Product("Amelie Poulain",
+                Paths.get("/movies/amelie.mov"), new BigDecimal(100));
 
         assertThat(totalValuePerProduct.get(productBandeira), is(equalTo(new BigDecimal(50))));
+        assertThat(totalValuePerProduct.get(poderosas), is(equalTo(new BigDecimal(180))));
+        assertThat(totalValuePerProduct.get(beauty), is(equalTo(new BigDecimal(300))));
+        assertThat(totalValuePerProduct.get(vingadores), is(equalTo(new BigDecimal(200))));
+        assertThat(totalValuePerProduct.get(amelie), is(equalTo(new BigDecimal(300))));
+        assertThat(totalValuePerProduct.get(bach), is(equalTo(new BigDecimal(400))));
+    }
+
+    @Test
+    public void testDeveriaRetornarOsProdutosDeCadaCliente() throws Exception {
+
+ /*       Map<Customer, List<List<Product>>> customerToProductsList = payments.stream()
+                .collect(Collectors.groupingBy(Payment::getCustomer,
+                        Collectors.mapping(Payment::getProducts, Collectors.toList())));
+
+        Map<Customer, List<Product>> customerToProducts2steps =
+                customerToProductsList.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey,
+                        e -> e.getValue().stream()
+                             .flatMap(List::stream)
+                             .collect(Collectors.toList())));*/
+
+
+   /*     Map<Customer, List<Product>> customerToProducts = payments.stream()
+                .collect(Collectors.groupingBy(Payment::getCustomer,
+                        Collectors.reducing(Collections.emptyList(),
+                                Payment::getProducts,
+                                (l1, l2) -> { List<Product> l = new ArrayList<>();
+                                    l.addAll(l1);
+                                    l.addAll(l2);
+                                    return l;} )));*/
+
+    }
+
+
+    @Test
+    public void testDeveriaRetornarClienteMaisEspecial() throws Exception {
+        Function<Payment, BigDecimal> paymentToTotal = p -> p.getProducts()
+                .stream()
+                .map(Product::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        Map<Customer, BigDecimal> totalValuePerCustomer = payments.stream()
+                .collect(Collectors.groupingBy(Payment::getCustomer,
+                        Collectors.reducing(BigDecimal.ZERO,
+                                paymentToTotal, BigDecimal::add)));
+
+        totalValuePerCustomer.entrySet().stream()
+                .sorted(Comparator.comparing(Map.Entry::getValue))
+                .forEach(System.out::println);
+
+    }
+
+    @Test
+    public void testDeveriaRetornarRelatorioComDataPorAno() throws Exception {
+        Map<YearMonth, List<Payment>> paymentsPerMonth = payments.stream()
+                .collect(Collectors.groupingBy(p -> YearMonth.from(p.getDate())));
+
+        paymentsPerMonth.entrySet().stream().forEach(System.out::println);
+    }
+
+    @Test
+    public void testDeveriaRetornarRelatorioTotalDePagamentosPorMes() throws Exception {
+        Map<YearMonth, BigDecimal> paymentsPerValuePerMonth = payments.stream()
+                .collect(Collectors.groupingBy(p -> YearMonth.from(p.getDate()),
+                        Collectors.reducing(BigDecimal.ZERO,
+                                p -> p.getProducts().stream()
+                                .map(Product::getPrice)
+                                .reduce(BigDecimal.ZERO, BigDecimal::add), BigDecimal::add)));
 
     }
 }
